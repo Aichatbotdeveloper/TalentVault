@@ -65,7 +65,7 @@ test("search filters narrow results and profiles hide identity", async ({ page }
   await login(page, "employer@example.com");
   await page.goto("/portal/candidates?q=machine%20learning");
   await expect(page.getByText("Showing 1 anonymised candidate")).toBeVisible();
-  await page.goto("/portal/candidates?salary_min=200000");
+  await page.goto("/portal/candidates?q=zzqx-no-such-skill");
   await expect(page.getByText("No candidates match these filters")).toBeVisible();
   await page.goto("/portal/candidates");
   await page.locator("article h2 a").first().click();

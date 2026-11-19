@@ -217,6 +217,7 @@ npm run db:types
   - Locally they appear in Mailpit, using the templates in `supabase/templates`.
   - In production, configure SMTP under Supabase Dashboard → Authentication → SMTP.
   - Paste the same templates under Authentication → Email Templates. They use the `token_hash` link format `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=…`, which works across devices.
+  - Supabase's **default** templates also work (the app handles their `?code=` and `#access_token` links), so verification, password reset and invitations function before custom SMTP is configured. With default links, a verification link opened in a different browser confirms the email and then asks the user to sign in. Note that Supabase's built-in sender is limited to a few emails per hour — configure SMTP before launch.
 - **Application emails** (receipt to candidates, admin alerts, employer approval and enquiry updates, candidate consent requests) go through `src/lib/email`. They are sent via Resend (`EMAIL_PROVIDER=resend`) or logged (`console`). Every attempt is recorded in `email_log` (Admin → Settings → Email Log). In-app notifications are stored in `notifications` (bell icon).
 
 ## Testing
@@ -249,7 +250,7 @@ npm run test:e2e
 | --- | --- | --- |
 | Unit | 25 | Business rules and contracts |
 | Integration | 14 | Real Postgres/RLS/Storage: anonymous and unapproved access denied, no PII in employer responses, private CVs unreadable, role escalation blocked, internal notes hidden, consent-gated introductions, publication rules, rate limiter, CV pipeline incl. OCR-failure path |
-| End-to-end | 31 | Public pages and navigation, contact form, CV submission with invalid-file rejection, registration → email verification (Mailpit) → approval gate → search → enquiry, admin review → sign-off → publish → visible to employer, CMS publish, access control, mobile layouts |
+| End-to-end | 33 | Public pages and navigation, contact form, CV submission with invalid-file rejection, registration → email verification (Mailpit) → approval gate, password reset and admin invitation by email → search → enquiry, admin review → sign-off → publish → visible to employer, CMS publish, access control, mobile layouts |
 
 CI (`.github/workflows/ci.yml`) runs everything, including a local Supabase stack, on each push and pull request.
 

@@ -78,7 +78,7 @@ export async function registerEmployer(_prev: ActionState, formData: FormData): 
     email: d.email,
     password: d.password,
     options: {
-      emailRedirectTo: siteUrl("/auth/confirm?next=/portal"),
+      emailRedirectTo: siteUrl("/auth/confirm?flow=signup&next=/portal"),
       data: {
         full_name: d.full_name,
         job_title: d.job_title,
@@ -120,7 +120,7 @@ export async function resendConfirmation(_prev: ActionState, formData: FormData)
   if (!email.success) return { ok: false, message: "Enter a valid email address." };
   if (!(await rateLimit("resend-confirmation", 3, 3600, email.data.toLowerCase()))) return { ok: false, message: RATE_LIMIT_MESSAGE };
   const supabase = await createClient();
-  await supabase.auth.resend({ type: "signup", email: email.data, options: { emailRedirectTo: siteUrl("/auth/confirm?next=/portal") } });
+  await supabase.auth.resend({ type: "signup", email: email.data, options: { emailRedirectTo: siteUrl("/auth/confirm?flow=signup&next=/portal") } });
   return { ok: true, message: "If an unconfirmed account exists for that address, a new verification email has been sent." };
 }
 
@@ -131,7 +131,7 @@ export async function requestPasswordReset(_prev: ActionState, formData: FormDat
   const okEmail = await rateLimit("pw-reset-email", 3, 3600, email.data);
   if (okIp && okEmail) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email.data, { redirectTo: siteUrl("/auth/update-password") });
+    const { error } = await supabase.auth.resetPasswordForEmail(email.data, { redirectTo: siteUrl("/auth/confirm?flow=recovery&next=/auth/update-password") });
     if (error) console.error("[pw-reset]", error.code, error.message);
     await audit({ action: "auth.password_reset_requested", entityType: "auth", metadata: { ip: await clientIpHash() } });
   }

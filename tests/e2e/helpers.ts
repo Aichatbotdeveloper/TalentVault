@@ -25,15 +25,18 @@ export async function login(page: Page, email: string, area: "employer" | "admin
 
 export const formError = (page: Page) => page.locator("div[role=alert].bg-error-container");
 
-/** Latest link to /auth/confirm in the Mailpit inbox for this recipient. */
-export async function confirmationLink(to: string): Promise<string> {
+/**
+ * Latest action link in the Mailpit inbox for this recipient. Supports custom templates
+ * (/auth/confirm?token_hash=…) and Supabase's default templates (/auth/v1/verify?…).
+ */
+export async function confirmationLink(to: string, opts: { after?: number } = {}): Promise<string> {
   for (let i = 0; i < 30; i++) {
     const res = await fetch(`${MAILPIT}/api/v1/search?query=${encodeURIComponent(`to:"${to}"`)}`);
-    const list = (await res.json()) as { messages?: { ID: string }[] };
-    const id = list.messages?.[0]?.ID;
-    if (id) {
-      const msg = (await (await fetch(`${MAILPIT}/api/v1/message/${id}`)).json()) as { HTML: string };
-      const m = msg.HTML.match(/href="([^"]*\/auth\/confirm[^"]*)"/);
+    const list = (await res.json()) as { messages?: { ID: string; Created: string }[] };
+    const latest = list.messages?.[0];
+    if (latest && (!opts.after || new Date(latest.Created).getTime() >= opts.after)) {
+      const msg = (await (await fetch(`${MAILPIT}/api/v1/message/${latest.ID}`)).json()) as { HTML: string };
+      const m = msg.HTML.match(/href="([^"]*(?:\/auth\/confirm|\/auth\/v1\/verify)[^"]*)"/);
       if (m) return m[1]!.replace(/&amp;/g, "&");
     }
     await new Promise((r) => setTimeout(r, 1000));
