@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body { margin: 0; padding: 0; }
+  body { overscroll-behavior: none; }
+  :focus-visible { outline: 2px solid #1a6840; outline-offset: 2px; }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  line-height: 1;
+  user-select: none;
+}
+.material-symbols-outlined.filled { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 h-10 px-space-lg rounded-full font-button text-button whitespace-nowrap transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed; }
+  .btn-primary { @apply btn bg-primary-container text-on-primary shadow-sm hover:bg-secondary; }
+  .btn-secondary { @apply btn bg-surface-container-high text-on-surface hover:bg-surface-variant; }
+  .btn-outline { @apply btn border border-border-subtle bg-surface-container-lowest text-on-surface hover:bg-surface-container-low shadow-sm; }
+  .btn-ghost { @apply btn text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high; }
+  .btn-danger { @apply btn bg-error-container text-on-error-container hover:bg-error hover:text-on-error; }
+  .btn-dark { @apply btn bg-surface-alt text-surface-bright hover:bg-inverse-surface; }
+  .btn-sm { @apply h-8 px-space-md text-label-md; }
+  .btn-lg { @apply h-12 px-space-xl; }
+
+  .tv-input { @apply w-full h-11 px-space-md rounded-lg bg-surface-container-lowest border border-border-subtle text-on-surface font-body-md text-body-md placeholder:text-text-muted/70 outline-none transition-all focus:border-primary-container focus:ring-2 focus:ring-focus-ring/20 disabled:bg-surface-container-low disabled:text-text-muted; }
+  .tv-textarea { @apply tv-input h-auto py-space-sm leading-relaxed; }
+  .tv-select { @apply tv-input pr-8 appearance-none bg-no-repeat; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%23404941'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-position: right 0.6rem center; }
+  .tv-label { @apply block font-label-md text-label-md text-on-surface mb-1.5; }
+  .tv-help { @apply mt-1 font-body-sm text-body-sm text-text-muted; }
+  .tv-error { @apply mt-1 font-body-sm text-body-sm text-error; }
+
+  .tv-card { @apply bg-surface-container-lowest rounded-xl border border-border-subtle shadow-card; }
+  .tv-panel { @apply bg-surface-container-lowest rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.05)]; }
+  .chip { @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm; }
+  .chip-green { @apply chip bg-secondary-fixed/40 text-on-secondary-container; }
+  .eyebrow { @apply font-label-md text-label-md uppercase tracking-wider text-primary font-semibold; }
+  .page-title { @apply font-display-lg text-display-lg-mobile md:text-[40px] font-extrabold tracking-tight text-text-primary leading-[1.1]; }
+  .table-head { @apply px-space-md py-space-sm text-left font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant; }
+  .table-cell { @apply px-space-md py-space-sm align-top font-body-sm text-body-sm text-on-surface; }
+}
