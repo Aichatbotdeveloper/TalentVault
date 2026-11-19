@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   title: { default: "TalentVault | Curated, anonymised talent", template: "%s | TalentVault" },
   description:
     "TalentVault is a recruitment company combining curated candidate representation, AI-assisted CV processing and anonymous candidate discovery for approved employers.",
-  icons: { icon: "/brand/favicon.svg" },
 };
 
 export const viewport: Viewport = { themeColor: "#1a6840" };
