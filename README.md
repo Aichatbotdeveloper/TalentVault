@@ -170,6 +170,7 @@ Migrations (apply in order):
 | `20261119000002_security_and_functions.sql` | RLS policies, column privileges, search, queue and workflow functions, private `cvs` bucket + storage policy |
 | `20261119000003_admin_workflows.sql` | Atomic profile editing, consent-gated introductions, user access, CMS publishing, settings |
 | `20261119000004_app_metadata_role_sync.sql` | Syncs admin roles assigned via Auth `app_metadata` |
+| `20261119000005_explicit_grants.sql` | Explicit table/function privileges for `anon`, `authenticated` and `service_role` (newer Supabase projects no longer grant these by default) |
 
 Commands:
 
