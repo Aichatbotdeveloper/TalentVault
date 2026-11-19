@@ -247,7 +247,7 @@ npm run test:e2e
 
 | Suite | Count | Covers |
 | --- | --- | --- |
-| Unit | 24 | Business rules and contracts |
+| Unit | 25 | Business rules and contracts |
 | Integration | 14 | Real Postgres/RLS/Storage: anonymous and unapproved access denied, no PII in employer responses, private CVs unreadable, role escalation blocked, internal notes hidden, consent-gated introductions, publication rules, rate limiter, CV pipeline incl. OCR-failure path |
 | End-to-end | 31 | Public pages and navigation, contact form, CV submission with invalid-file rejection, registration → email verification (Mailpit) → approval gate → search → enquiry, admin review → sign-off → publish → visible to employer, CMS publish, access control, mobile layouts |
 
