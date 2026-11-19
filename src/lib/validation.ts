@@ -53,7 +53,8 @@ export const loginSchema = z.object({ email, password: z.string().min(1, "Enter 
 
 export const WORK_MODE_VALUES = ["remote", "hybrid", "onsite"] as const;
 
-const money = z.coerce.number().int().min(0).max(5_000_000).optional();
+// Empty inputs must become undefined (z.coerce.number would turn "" into 0).
+const money = z.preprocess((v) => (v === "" || v == null ? undefined : v), z.coerce.number().int().min(0).max(5_000_000).optional());
 
 export const CONSENT_VERSION = "2026-11-v1";
 export const CONSENT_TEXT = {

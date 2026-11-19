@@ -24,6 +24,11 @@ describe("validation schemas", () => {
     expect(r.success && r.data.email).toBe("jordan@example.com");
   });
 
+  it("treats blank salary fields as not provided (not £0)", () => {
+    const r = candidateSubmissionSchema.safeParse({ ...submission, salary_min: "", salary_max: "" });
+    expect(r.success && [r.data.salary_min, r.data.salary_max]).toEqual([undefined, undefined]);
+  });
+
   it("requires every consent", () => {
     const { consent_contact: _c, ...rest } = submission;
     expect(candidateSubmissionSchema.safeParse(rest).success).toBe(false);
