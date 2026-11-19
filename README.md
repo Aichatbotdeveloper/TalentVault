@@ -302,7 +302,7 @@ git push -u origin main
 
 1. Import the GitHub repository in Vercel. The framework is detected as Next.js and the defaults are fine.
 2. Add the environment variables from the table above for Production and Preview. Use a separate Supabase project for Preview if possible.
-3. Deploy. `vercel.json` registers the cron job `*/5 * * * *` → `/api/cron/process-cv-jobs`. Vercel sends `Authorization: Bearer $CRON_SECRET` automatically when `CRON_SECRET` is set.
+3. Deploy. `vercel.json` registers a **daily** cron job (`17 3 * * *`, Hobby-compatible) → `/api/cron/process-cv-jobs`; on Pro, change it to `*/5 * * * *`. Vercel sends `Authorization: Bearer $CRON_SECRET` automatically when `CRON_SECRET` is set.
    - Vercel **Hobby** only allows daily crons. On Hobby, CVs are still processed immediately after each submission (`after()`), and admins can use **Process Queue Now** in the admin console.
    - **Pro** is recommended: the 5-minute cron and the 300-second function duration used for AI processing need it.
 4. Smoke test:
